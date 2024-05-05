@@ -1,6 +1,8 @@
 /* Header Styles */
 
-
+.app{
+    width: 100%;
+}
 .header {
     justify-content: space-between;
     padding: 20px 30px;
@@ -41,7 +43,7 @@ ul > li {
 }
 
 ul > li:hover {
-    background-color: #ffa07a; /* Lighter shade of bisque */
+    background-color: #ffa07a; 
 }
 
  .body{
@@ -53,7 +55,7 @@ ul > li:hover {
     border: 1px solid blue;
     background-color: #FFBB00;
     width: 100%;
-   margin-left:  5px 5px;
+    margin-left:  5px 5px;
     padding: 5px 0px;
  }
  .restro-container{

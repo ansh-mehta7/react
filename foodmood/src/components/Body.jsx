@@ -1,18 +1,46 @@
 import RestrauntCard from "./restrauntCard";
-import restaurantList from "../utils/apidata"
+import restaurantList from "../utils/apidata";
+import { useState } from "react";
 
+// state variable
 const Body = () => {
-    return (
-      <div className="body">
-        <div className="search-food">search</div>
-        <div className="restro-container">
-          {/* <RestrauntCard resData={restaurantList[0]} /> */}
+  // let varaible ; // noraml varable
+  // state varaible
+  // inside this usstate we pass the defualt value that variable will recieve
+  //usestate is a hook which returns the array
+  // the setnewListRestraunt function is used to update the newlistRetraunt tate variable it can be updated like a normal js vatriable
+
+  // let [newListRestraunt, setnewListRestyraunt] = useState(restaurantList);
+  let arr = useState(restaurantList);
+  newListRestraunt=arr[0];
+  setnewListRestyraunt=arr[1];
   
-          {restaurantList.map((retsraunt) => (
-            <RestrauntCard  key={retsraunt.data.id}  resData={retsraunt} />
-          ))}
-  
-          {/* <RestrauntCard
+
+
+  return (
+    <div className="body">
+      <div className="search-food">search</div>
+      <div className="filter-btn">
+        <button
+          className="btn"
+          onClick={() => {
+            const filterdList = newListRestraunt.filter((restaurant) => {
+              return restaurant.data.avgRating > 4;
+            });
+            setnewListRestyraunt(filterdList);
+          }}
+        >
+          filter restraunts
+        </button>
+      </div>
+      <div className="restro-container">
+        {/* <RestrauntCard resData={restaurantList[0]} /> */}
+
+        {newListRestraunt.map((retsraunt) => (
+          <RestrauntCard key={retsraunt.data.id} resData={retsraunt} />
+        ))}
+
+        {/* <RestrauntCard
             resName="Taj Mahal Indian Cuisine"
             rating="4.5"
             cuisine="Butter Chicken, Biryani, Naan"
@@ -72,8 +100,8 @@ const Body = () => {
             rating="4.5"
             cuisine="Vada Pav, Pav Bhaji, Dabeli"
           /> */}
-        </div>
       </div>
-    );
-  };
-export default Body;  
+    </div>
+  );
+};
+export default Body;
