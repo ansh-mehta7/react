@@ -35,3 +35,11 @@
 - usestate() -> it maintains the state of your component  ,scope of  a local state varaible is inside that component
 
 - useeffect()
+![alt text](image.png)
+- state varaible
+  inside this usstate we pass the defualt value that variable will recieve
+  usestate is a hook which returns the array
+  the setnewListRestraunt function is used to update the newlistRetraunt state variable it can be updated like a normal js vatriable
+  let [newListRestraunt, setnewListRestyraunt] = useState(restaurantList);
+
+

@@ -1,9 +1,9 @@
 import { FOOD_CARD_URL } from "../utils/constants";
 
 const RestrauntCard = (props) => {
-  const { resData, key } = props;
+  const { resData } = props;
   const { cloudinaryImageId, name, avgRating, deliveryTime, cuisines } =
-    resData?.data;
+    resData.data;
   return (
     <div
       className="restro-card"
