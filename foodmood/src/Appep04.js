@@ -8,6 +8,7 @@ import Body from "./components/Body";
 // swiggy api
 
 const AppLayout = () => {
+  
   return (
     <div className="app">
       <Header />

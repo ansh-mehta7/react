@@ -1,4 +1,4 @@
-// swiggy api
+// swiggy api kese ho 
  const restaurantList = [
     {
       type: "restaurant",
