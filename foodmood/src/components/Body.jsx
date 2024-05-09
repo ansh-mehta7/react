@@ -1,6 +1,6 @@
 import RestrauntCard from "./restrauntCard";
 import restaurantList from "../utils/apidata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Body = () => {
   let [newListRestraunt, setnewListRestyraunt] = useState(restaurantList);
@@ -8,6 +8,26 @@ const Body = () => {
   // let arr = useState(restaurantList);
   // newListRestraunt = arr[0];
   // setnewListRestyraunt = arr[1];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/mapi/homepage/getCards?lat=22.7446794&lng=75.8782344"
+    );
+    const jsonData = await data.json();
+    console.log(
+      jsonData.data.success.cards[4].gridWidget.gridElements.infoWithStyle
+        .restaurants
+    );
+
+    setnewListRestyraunt(
+      jsonData.data.success.cards[4].gridWidget.gridElements.infoWithStyle
+        .restaurants
+    );
+  };
 
   return (
     <div className="body">

@@ -2,7 +2,7 @@ import { FOOD_CARD_URL } from "../utils/constants";
 
 const RestrauntCard = (props) => {
   const { resData } = props;
-  const { cloudinaryImageId, name, avgRating, deliveryTime, cuisines } =
+  const { cloudinaryImageId, name, avgRating, costForTwoString, cuisines } =
     resData.data;
   return (
     <div
@@ -19,7 +19,7 @@ const RestrauntCard = (props) => {
       <h4> {name}</h4>
       <h4>{cuisines.join(",")} </h4>
       <h4>⭐{avgRating}</h4>
-      <h4>deliveryTime {deliveryTime}mins</h4>
+      <h4>{costForTwoString}</h4>
     </div>
   );
 };
