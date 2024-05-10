@@ -1,33 +1,31 @@
 import RestrauntCard from "./restrauntCard";
-import restaurantList from "../utils/apidata";
 import { useEffect, useState } from "react";
 
 const Body = () => {
-  let [newListRestraunt, setnewListRestyraunt] = useState(restaurantList);
+  let [newListRestraunt, setnewListRestyraunt] = useState([]);
 
-  // let arr = useState(restaurantList);
-  // newListRestraunt = arr[0];
-  // setnewListRestyraunt = arr[1];
+  const fetchData = async () => {
+    try {
+      const data = await fetch(
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=27.8973944&lng=78.0880129&page_type=DESKTOP_WEB_LISTING"
+      );
+      const json = await data.json();
+      console.log(
+        json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+      setnewListRestyraunt(
+        json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
-  
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/mapi/homepage/getCards?lat=22.7446794&lng=75.8782344"
-    );
-    const jsonData = await data.json();
-    console.log(
-      jsonData.data.success.cards[4].gridWidget.gridElements.infoWithStyle
-        .restaurants
-    );
-
-    setnewListRestyraunt(
-      jsonData.data.success.cards[4].gridWidget.gridElements.infoWithStyle
-        .restaurants
-    );
-  };
 
   return (
     <div className="body">
@@ -36,28 +34,20 @@ const Body = () => {
         <button
           className="btn"
           onClick={() => {
+            console.log("Original List:", newListRestraunt);
             const filterdList = newListRestraunt.filter((restaurant) => {
-              return restaurant.data.avgRating > 4;
+              return restaurant.info.avgRating > 4.5;
             });
-            setnewListRestyraunt(filterdList);
+            console.log("Filtered List:", filterdList);
+            setnewListRestyraunt([...filterdList]);
           }}
         >
           filter restraunts
         </button>
       </div>
       <div className="restro-container">
-        {/* <RestrauntCard resData={restaurantList[0]} /> */}
-
-        {/* <RestrauntCard
-            resName="Taj Mahal Indian Cuisine"
-            rating="4.5"
-            cuisine="Butter Chicken, Biryani, Naan"
-          />
-
-        */}
-
-        {newListRestraunt.map((retsraunt) => (
-          <RestrauntCard  resData={retsraunt} />
+        {newListRestraunt?.map((retsraunt) => (
+          <RestrauntCard resData={retsraunt} key={retsraunt.id} />
         ))}
       </div>
     </div>

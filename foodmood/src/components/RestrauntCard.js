@@ -2,8 +2,8 @@ import { FOOD_CARD_URL } from "../utils/constants";
 
 const RestrauntCard = (props) => {
   const { resData } = props;
-  const { cloudinaryImageId, name, avgRating, costForTwoString, cuisines } =
-    resData.data;
+  const { cloudinaryImageId, name, avgRating, areaName, cuisines, costForTwo } =
+    resData?.info;
   return (
     <div
       className="restro-card"
@@ -17,9 +17,10 @@ const RestrauntCard = (props) => {
         alt="res-food-image"
       ></img>
       <h4> {name}</h4>
-      <h4>{cuisines.join(",")} </h4>
+      <h4>{cuisines} </h4>
       <h4>⭐{avgRating}</h4>
-      <h4>{costForTwoString}</h4>
+      <h4>{areaName}</h4>
+      <h4>{costForTwo}</h4>
     </div>
   );
 };
