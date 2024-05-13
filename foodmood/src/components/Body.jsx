@@ -1,8 +1,11 @@
 import RestrauntCard from "./restrauntCard";
 import { useEffect, useState } from "react";
+import Shimmer from "./shimmer";
 
 const Body = () => {
+  const [originalList, setOriginalList] = useState([]);
   let [newListRestraunt, setnewListRestyraunt] = useState([]);
+  let [searchteaxt, setsearchteaxt] = useState("");
 
   const fetchData = async () => {
     try {
@@ -10,11 +13,16 @@ const Body = () => {
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=27.8973944&lng=78.0880129&page_type=DESKTOP_WEB_LISTING"
       );
       const json = await data.json();
+      console.log(json);
       console.log(
         json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants
       );
       setnewListRestyraunt(
+        json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+      setOriginalList(
         json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants
       );
@@ -27,27 +35,62 @@ const Body = () => {
     fetchData();
   }, []);
 
-  return (
+  return newListRestraunt.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
-      <div className="search-food">search</div>
-      <div className="filter-btn">
+      <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search for  dishes"
+            className="search-food"
+            value={searchteaxt}
+            onChange={(event) => {
+              setsearchteaxt(event.target.value);
+            }}
+          ></input>
+          <button
+            onClick={() => {
+              // update my newListRestraunt to filter the restarunts in the search name appeared
+              // and then set the new list to the newListRestraunt
+
+              const filterdList = originalList.filter((restaurant) => {
+                const namematch = restaurant.info.name
+                  .toLowerCase()
+                  .includes(searchteaxt.toLowerCase());
+
+                const cuisinematch = restaurant.info.cuisines
+                  .map((cuisine) => cuisine.toLowerCase())
+                  .some((cuisine) =>
+                    cuisine.includes(searchteaxt.toLowerCase())
+                  );
+
+                return namematch || cuisinematch;
+              });
+
+              setnewListRestyraunt([...filterdList]);
+            }}
+          >
+            search
+          </button>
+        </div>
         <button
-          className="btn"
+          className="top-rated"
           onClick={() => {
-            console.log("Original List:", newListRestraunt);
             const filterdList = newListRestraunt.filter((restaurant) => {
-              return restaurant.info.avgRating > 4.5;
+              return restaurant.info.avgRating > 4;
             });
-            console.log("Filtered List:", filterdList);
+
             setnewListRestyraunt([...filterdList]);
           }}
         >
-          filter restraunts
+          Top restraunts in your city
         </button>
       </div>
       <div className="restro-container">
         {newListRestraunt?.map((retsraunt) => (
-          <RestrauntCard resData={retsraunt} key={retsraunt.id} />
+          <RestrauntCard resData={retsraunt} key={retsraunt.info.id} />
         ))}
       </div>
     </div>
