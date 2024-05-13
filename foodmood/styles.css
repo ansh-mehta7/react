@@ -1,6 +1,8 @@
 /* Header Styles */
 
 .app{
+    margin: 0px;
+    padding: 0px;
     width: 100%;
 }
 .header {
@@ -24,6 +26,8 @@
 
 .nav-items {
     padding: 10px;
+    display: flex;
+    
 }
 
 .nav-items ul {
@@ -37,7 +41,7 @@ ul > li {
     font-size: 20px;
     margin-right: 20px;
     border: 1px dotted black;
-    padding: 5px 10px;
+    padding: 5px ;
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
@@ -49,12 +53,13 @@ ul > li:hover {
  .body{
     border: 1px solid black;
     background-color: #FFFAF0;
+    display: inline-block;
+
   
  }
  .search-food{
     border: 1px solid blue;
-    background-color: #FFBB00;
-    width: 100%;
+    ;
     margin-left:  5px 5px;
     padding: 5px 0px;
  }
@@ -62,7 +67,6 @@ ul > li:hover {
     height: 100%;
     width: 100%;
     display: flex;
-    background-color: #FB6542;
     flex-wrap: wrap;
     justify-content:flex-start;
  }
@@ -74,10 +78,10 @@ ul > li:hover {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
     width: 250px;
-    height: 400px;
+    height: 450px;
     margin: 10px;
     padding: 15px;
-    background-color: #fff; /* White background */
+    background-color: #5a4444; /* White background */
     transition: transform 0.3s ease;
 }
 
@@ -90,3 +94,32 @@ ul > li:hover {
     width: 100%;
     height: 200px;
  }
+ .shimmer{
+    border: 1px solid #ccc; /* Lighter border color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    width: 250px;
+    height: 450px;
+    margin: 10px;
+    padding: 15px;
+    background-color: #aaacac; /* White background */
+    }
+    .shimmer-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .login-btn{
+        display: flex;
+        height: 50px;
+        padding: 5px;
+        margin: 5px;
+        width: 50px;
+    }
+    .search{
+        display: flex;
+    }
+    .filter{
+        display: flex;
+        justify-content: right;
+        gap: 30px;
+    }

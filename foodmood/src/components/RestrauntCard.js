@@ -17,7 +17,7 @@ const RestrauntCard = (props) => {
         alt="res-food-image"
       ></img>
       <h4> {name}</h4>
-      <h4>{cuisines} </h4>
+      <h4>{cuisines.join(",")} </h4>
       <h4>⭐{avgRating}</h4>
       <h4>{areaName}</h4>
       <h4>{costForTwo}</h4>
