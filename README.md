@@ -42,4 +42,6 @@
   the setnewListRestraunt function is used to update the newlistRetraunt state variable it can be updated like a normal js vatriable
   let [newListRestraunt, setnewListRestyraunt] = useState(restaurantList);
 
-
+- useROuterError 
+ this is a hoook using this hook gives more information about the error 
+ 
