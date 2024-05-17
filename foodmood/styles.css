@@ -110,10 +110,10 @@ ul > li:hover {
     }
     .login-btn{
         display: flex;
-        height: 50px;
-        padding: 5px;
+       
+        padding: 15px;
         margin: 5px;
-        width: 50px;
+        
     }
     .search{
         display: flex;

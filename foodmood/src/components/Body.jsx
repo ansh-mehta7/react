@@ -1,7 +1,7 @@
 import RestrauntCard from "./restrauntCard";
 import { useEffect, useState } from "react";
-import Shimmer from "./shimmer";
-
+import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 const Body = () => {
   const [originalList, setOriginalList] = useState([]);
   let [newListRestraunt, setnewListRestyraunt] = useState([]);
@@ -10,14 +10,10 @@ const Body = () => {
   const fetchData = async () => {
     try {
       const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=27.8973944&lng=78.0880129&page_type=DESKTOP_WEB_LISTING"
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.7287381&lng=75.80759929999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const json = await data.json();
-      console.log(json);
-      console.log(
-        json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
+
       setnewListRestyraunt(
         json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants
@@ -90,7 +86,9 @@ const Body = () => {
       </div>
       <div className="restro-container">
         {newListRestraunt?.map((retsraunt) => (
-          <RestrauntCard resData={retsraunt} key={retsraunt.info.id} />
+          <Link key={retsraunt.info.id} to={"restaurant/" + retsraunt.info.id}>
+            <RestrauntCard resData={retsraunt} />
+          </Link>
         ))}
       </div>
     </div>

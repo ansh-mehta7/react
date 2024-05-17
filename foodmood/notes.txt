@@ -1,0 +1,11 @@
+what is optional chaining ?
+ans/ 
+Optional chaining is a feature in JavaScript that allows you to access properties of an object without the need to explicitly check if each property exists at every level of nesting. It provides a concise and safe way to handle potentially undefined or null values within nested objects and arrays.
+
+Here's how optional chaining works:
+
+Accessing Nested Properties:
+
+Normally, if you try to access a property of an object that doesn't exist, JavaScript throws an error, typically "Cannot read property 'propertyName' of undefined".
+With optional chaining, you can use the ?. operator to access nested properties of an object. If any intermediate property along the chain is null or undefined, the expression short-circuits, and the result is undefined.
+
