@@ -1,35 +1,42 @@
 import React from "react";
-import { useState, useEffect } from "react";
+
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
+import useRestrauntMenu from "../utils/useRestrauntMenu";
 
 const RestrauntMenu = () => {
-  const [resInfo, setresInfo] = useState(null);
   const { resid } = useParams();
-
-  const fetchMenu = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=22.7287381&lng=75.80759929999999&restaurantId=" +
-        resid +
-        "&catalog_qa=undefined&submitAction=ENTER"
-    );
-
-    const json = await data.json();
-
-    setresInfo(json.data);
-  };
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  const resInfo = useRestrauntMenu(resid);
 
   if (resInfo === null) {
     return <Shimmer />;
   }
 
-  const { name, costForTwoMessage, id, cuisines } =
-    resInfo.cards[2].card.card.info;
-  const { itemCards } =
-    resInfo.cards[5].groupedCard.cardGroupMap.REGULAR.cards[1].card.card;
+  const { name, costForTwoMessage, cuisines } =
+    resInfo?.cards?.[2]?.card?.card?.info ?? {};
+
+  let itemCards = [];
+
+  if (
+    resInfo?.cards?.[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.[1]?.card
+      ?.card?.itemCards
+  ) {
+    itemCards =
+      resInfo.cards[5].groupedCard.cardGroupMap.REGULAR.cards[1].card.card
+        .itemCards;
+  }
+
+  if (
+    resInfo?.cards?.[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.[1]?.card
+      ?.card?.carousel
+  ) {
+    const carouselItems =
+      resInfo.cards[5].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.carousel.map(
+        (item) => item.dish
+      );
+    itemCards = itemCards.concat(carouselItems);
+  }
+
   console.log(itemCards);
   return (
     <div className="menu">

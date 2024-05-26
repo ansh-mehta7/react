@@ -1,11 +1,14 @@
+import React, { useEffect, useState } from "react";
 import RestrauntCard from "./restrauntCard";
-import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
+
 const Body = () => {
   const [originalList, setOriginalList] = useState([]);
-  let [newListRestraunt, setnewListRestyraunt] = useState([]);
-  let [searchteaxt, setsearchteaxt] = useState("");
+  const [newListRestraunt, setnewListRestyraunt] = useState([]);
+  const [searchteaxt, setsearchteaxt] = useState("");
+  const online = useOnlineStatus();
 
   const fetchData = async () => {
     try {
@@ -14,14 +17,11 @@ const Body = () => {
       );
       const json = await data.json();
 
-      setnewListRestyraunt(
+      const restaurants =
         json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-      setOriginalList(
-        json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
+          ?.restaurants || [];
+      setnewListRestyraunt(restaurants);
+      setOriginalList(restaurants);
     } catch (error) {
       console.log(error);
     }
@@ -31,6 +31,10 @@ const Body = () => {
     fetchData();
   }, []);
 
+  if (!online) {
+    return <h1>You are offline</h1>;
+  }
+
   return newListRestraunt.length === 0 ? (
     <Shimmer />
   ) : (
@@ -39,59 +43,54 @@ const Body = () => {
         <div className="search">
           <input
             type="text"
-            placeholder="Search for  dishes"
+            placeholder="Search for dishes"
             className="search-food"
             value={searchteaxt}
-            onChange={(event) => {
-              setsearchteaxt(event.target.value);
-            }}
-          ></input>
+            onChange={(event) => setsearchteaxt(event.target.value)}
+          />
           <button
             onClick={() => {
-              // update my newListRestraunt to filter the restarunts in the search name appeared
-              // and then set the new list to the newListRestraunt
-
-              const filterdList = originalList.filter((restaurant) => {
-                const namematch = restaurant.info.name
+              const filteredList = originalList.filter((restaurant) => {
+                const nameMatch = restaurant.info.name
                   .toLowerCase()
                   .includes(searchteaxt.toLowerCase());
-
-                const cuisinematch = restaurant.info.cuisines
+                const cuisineMatch = restaurant.info.cuisines
                   .map((cuisine) => cuisine.toLowerCase())
                   .some((cuisine) =>
                     cuisine.includes(searchteaxt.toLowerCase())
                   );
-
-                return namematch || cuisinematch;
+                return nameMatch || cuisineMatch;
               });
-
-              setnewListRestyraunt([...filterdList]);
+              setnewListRestyraunt(filteredList);
             }}
           >
-            search
+            Search
           </button>
         </div>
         <button
           className="top-rated"
           onClick={() => {
-            const filterdList = newListRestraunt.filter((restaurant) => {
-              return restaurant.info.avgRating > 4;
-            });
-
-            setnewListRestyraunt([...filterdList]);
+            const filteredList = newListRestraunt.filter(
+              (restaurant) => restaurant.info.avgRating > 4
+            );
+            setnewListRestyraunt(filteredList);
           }}
         >
-          Top restraunts in your city
+          Top restaurants in your city
         </button>
       </div>
       <div className="restro-container">
-        {newListRestraunt?.map((retsraunt) => (
-          <Link key={retsraunt.info.id} to={"restaurant/" + retsraunt.info.id}>
-            <RestrauntCard resData={retsraunt} />
+        {newListRestraunt.map((restaurant) => (
+          <Link
+            key={restaurant.info.id}
+            to={"restaurant/" + restaurant.info.id}
+          >
+            <RestrauntCard resData={restaurant} />
           </Link>
         ))}
       </div>
     </div>
   );
 };
+
 export default Body;
