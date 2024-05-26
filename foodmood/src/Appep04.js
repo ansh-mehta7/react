@@ -7,8 +7,11 @@ import About from "./components/About";
 import Error from "./components/Error";
 import Contact from "./components/Contact";
 import RestrauntMenu from "./components/RestrauntMenu";
-
+// import Grocery from "./components/Grocery"; not neede now
+import { lazy, Suspense } from "react";
 // swiggy api
+
+const Grocery = lazy(() => import("./components/Grocery"));
 
 const AppLayout = () => {
   return (
@@ -31,6 +34,14 @@ const aprouter = createBrowserRouter([
       {
         path: "/about", // if path is /abot then load my about component
         element: <About />,
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Grocery />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
